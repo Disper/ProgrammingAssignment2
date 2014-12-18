@@ -29,16 +29,16 @@ really a list containing a function to
 
 <!-- -->
 
-    makeVector <- function(x = numeric()) {
-            m <- NULL
-            set <- function(y) {
+    makeVector <- function(x = numeric()) { # x is an numeric vector with default length 0
+            m <- NULL 			    # what's m?
+            set <- function(y) {            # what's y?
                     x <<- y
                     m <<- NULL
             }
-            get <- function() x
-            setmean <- function(mean) m <<- mean
-            getmean <- function() m
-            list(set = set, get = get,
+            get <- function() x             
+            setmean <- function(mean) m <<- mean  # anonymous function that sets m to mean in other environment
+            getmean <- function() m  		  # returns mean from other environment
+            list(set = set, get = get,            # returns list containing 4 functions? an object?
                  setmean = setmean,
                  getmean = getmean)
     }
@@ -50,16 +50,16 @@ cache and skips the computation. Otherwise, it calculates the mean of
 the data and sets the value of the mean in the cache via the `setmean`
 function.
 
-    cachemean <- function(x, ...) {
-            m <- x$getmean()
-            if(!is.null(m)) {
-                    message("getting cached data")
-                    return(m)
-            }
-            data <- x$get()
-            m <- mean(data, ...)
-            x$setmean(m)
-            m
+	    cachemean <- function(x, ...) {       # x is a vector created with makeVector() function
+		    m <- x$getmean()              # gets mean from this vector
+		    if(!is.null(m)) {             # checks is mean was already calculated 
+			    message("getting cached data")   # if it was print message
+			    return(m)			     # and return cached mean	
+		    }
+		    data <- x$get()			     # data is given vector (x)
+		    m <- mean(data, ...)                     # compute mean from the vector (x)
+            x$setmean(m)                                     # updates cached mean
+            m						     # returns mean value
     }
 
 ### Assignment: Caching the Inverse of a Matrix
